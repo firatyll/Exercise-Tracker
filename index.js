@@ -7,6 +7,7 @@ const dbConnection = require('./database/dbConnection');
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const getRoutes = require('./routes/getRoutes');
 const postRoutes = require('./routes/postRoutes');
