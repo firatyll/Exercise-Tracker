@@ -3,7 +3,9 @@ const User = require('../database/models/user');
 exports.createUser = async (req, res) => {
     const { username } = req.body;
     try {
-        const user = new User({ username });
+        const user = new User({
+            username : username
+        });
         await user.save();
         res.status(201).json({
             username: user.username,
@@ -17,9 +19,9 @@ exports.createUser = async (req, res) => {
 };
 
 exports.createExercise = async (req, res) => {
-    const id = req.params.id 
+    const id = req.params.id
     let { description, duration, date } = req.body;
-    if(!date){
+    if (!date) {
         date = new Date().toISOString().substring(0, 10);
     }
     try {
