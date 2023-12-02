@@ -10,10 +10,12 @@ const userSchema = new mongoose.Schema({
     },
     log: [{
         description: {
-            type: String
+            type: String,
+            required: true
         },
         duration: {
-            type: Number
+            type: Number,
+            required: true
         },
         date: {
             type: Date
