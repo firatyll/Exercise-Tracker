@@ -19,11 +19,15 @@ exports.createUser = async (req, res) => {
 };
 
 exports.createExercise = async (req, res) => {
-    const id = req.params.id
+    const id = req.params.id;
     let { description, duration, date } = req.body;
+
     if (!date) {
         date = new Date().toISOString().substring(0, 10);
+    } else {
+        date = new Date(date).toDateString();
     }
+
     try {
         const user = await User.findById(id);
         if (!user) {
@@ -31,20 +35,23 @@ exports.createExercise = async (req, res) => {
                 message: "User not found."
             });
         }
+
         const exercise = {
             description,
             duration,
             date
         };
+
         user.log.push(exercise);
         user.count = user.log.length;
         await user.save();
+
         res.status(201).json({
             _id: user._id,
             username: user.username,
-            date: new Date(user.log.date).toDateString(),
-            duration: user.log.duration,
-            description: user.log.description
+            date: new Date(exercise.date).toDateString(),
+            duration: exercise.duration,
+            description: exercise.description
         });
     } catch (error) {
         res.status(500).json({
@@ -52,3 +59,4 @@ exports.createExercise = async (req, res) => {
         });
     }
 };
+
