@@ -42,9 +42,9 @@ exports.createExercise = async (req, res) => {
         res.status(201).json({
             _id: user._id,
             username: user.username,
-            date: new Date(exercise.date).toDateString(),
-            duration: exercise.duration,
-            description: exercise.description
+            date: new Date(user.log.date).toDateString(),
+            duration: user.log.duration,
+            description: user.log.description
         });
     } catch (error) {
         res.status(500).json({
