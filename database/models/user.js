@@ -7,20 +7,7 @@ const userSchema = new mongoose.Schema({
     },
     count: {
         type: Number
-    },
-    log: [{
-        description: {
-            type: String,
-            required: true
-        },
-        duration: {
-            type: Number,
-            required: true
-        },
-        date: {
-            type: Date
-        }
-    }]
+    }
 });
 
 const User  = mongoose.model('User', userSchema);
