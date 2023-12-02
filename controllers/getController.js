@@ -16,31 +16,32 @@ exports.getLogs = async (req, res) => {
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
-        
-        const exercise = await Exercise.find({ userId: req.params.id }).select('-_id -userId -__v');
+
         let { from, to, limit } = req.query;
-        let log = user.log;
+        let exercises = await Exercise.find({ userId: req.params.id }).select('-_id -userId -__v');
+
         if (from) {
-            exercise = exercise.filter((exercise) => new Date(exercise.date) >= new Date(from));
+            exercises = exercises.filter((exercise) => new Date(exercise.date) >= new Date(from));
         }
         if (to) {
-            exercise = exercise.filter((exercise) => new Date(exercise.date) <= new Date(to));
+            exercises = exercises.filter((exercise) => new Date(exercise.date) <= new Date(to));
         }
         if (limit) {
-            exercise = exercise.slice(0, parseInt(limit, 10));
+            exercises = exercises.slice(0, parseInt(limit, 10));
         }
 
         return res.status(200).json({
             _id: user._id,
             username: user.username,
-            count: exercise.length,
-            log: exercise.map((exercise) => ({
+            count: exercises.length,
+            log: exercises.map((exercise) => ({
                 description: exercise.description,
                 duration: exercise.duration,
                 date: exercise.date.toDateString()
             }))
         });
     } catch (err) {
+        console.error(err);
         res.status(500).json({ error: 'Error getting logs' });
     }
 };
