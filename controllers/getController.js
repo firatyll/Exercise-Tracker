@@ -16,6 +16,7 @@ exports.getLogs = async (req, res) => {
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
+        
         const exercise = await Exercise.find({ userId: req.params.id }).select('-_id -userId -__v');
         let { from, to, limit } = req.query;
         let log = user.log;
@@ -32,7 +33,7 @@ exports.getLogs = async (req, res) => {
         return res.status(200).json({
             _id: user._id,
             username: user.username,
-            count: user.count,
+            count: exercise.length,
             log: exercise.map((exercise) => ({
                 description: exercise.description,
                 duration: exercise.duration,

@@ -46,7 +46,6 @@ exports.createExercise = async (req, res) => {
 
         await exercise.save();
         await user.save();
-        user.count = user.count + 1;
 
         res.status(201).json({
             _id: user._id,
